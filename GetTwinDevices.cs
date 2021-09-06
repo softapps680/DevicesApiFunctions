@@ -35,10 +35,7 @@ namespace DevicesApiFunctions
                 var response = await client.GetAsync(url);
                 var data = JsonConvert.DeserializeObject<IOTDevice>(await response.Content.ReadAsStringAsync());
                 //
-                bool sending;
-                if (twin.ConnectionState.ToString() == "Disconnected")
-                    sending = false;
-                else sending = true;
+                
                 devices.Add(new IOTDevice
                 {
                     DeviceId = twin.DeviceId,
@@ -47,9 +44,8 @@ namespace DevicesApiFunctions
                     Status = twin.Status.ToString(),
                     JsonData = data.JsonData,
                     JsonDataLastUpdated = data.JsonDataLastUpdated,
-                    //AllowSending = twin.Properties.Reported["allowSending"]
-                     //AllowSending = data.AllowSending
-                     AllowSending=sending
+                    AllowSending = twin.Properties.Reported["allowSending"]
+                  
                 }); 
             }
 

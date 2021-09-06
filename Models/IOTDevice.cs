@@ -13,8 +13,9 @@ namespace DevicesApiFunctions.Models
 
         public string ConnectionState { get; set; }
         public string Status { get; set; } 
-        public string JsonData { get; set; } 
-        public DateTime JsonDataLastUpdated { get; set; }
+        public string JsonData { get; set; }
+        public DateTime JsonDataLastUpdated { get; set; } = DateTime.Now;
+        public bool AllowSending { get; set; } = false;
 
     }
     }

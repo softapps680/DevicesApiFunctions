@@ -40,21 +40,7 @@ namespace DevicesApiFunctions
                 device.Status = twinDevice.Status.ToString();
             }
 
-                //returnera ett objekten såsom jag vill de ska se ut och twin är ju annorlunda
-                /* var devices = new List<IOTDevice>();
-
-                 foreach (var twin in twins)
-                 {
-                     devices.Add(new IOTDevice
-                     {
-
-                         DeviceId = twin.DeviceId,
-                         ConnectionState = (twin.ConnectionState.ToString() == "Connected") ? "Online" : "OffLine",
-                         Status = twin.Status.ToString(),
-                        // JsonData = twin.JsonData vad vi får ut beror på hur twin ser ut/kan hämta från db ELLER twin
-                        //om vi ska hämt från db så får vi lägga till den som trigger parameter
-                     });
-                 }*/
+               
 
                 return new OkObjectResult(cosmos);
         }

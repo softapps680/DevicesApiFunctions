@@ -11,8 +11,7 @@ using Microsoft.Azure.Devices;
 
 namespace DevicesApiFunctions
 {
-    /*
-     Behöver få in properties reported*/
+    /* Behöver få in properties reported*/
     public static class CreateDevice
     {
         public static readonly RegistryManager registry = RegistryManager.CreateFromConnectionString(Environment.GetEnvironmentVariable("IotHub"));

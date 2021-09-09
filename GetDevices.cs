@@ -19,7 +19,7 @@ namespace DevicesApiFunctions
         //denna sköter CRUD på devices
         private static readonly RegistryManager registry =
             RegistryManager.CreateFromConnectionString(Environment.GetEnvironmentVariable("IotHub"));
-        //Lägger connstringen i jsonfilen
+        //Lägger connstringen fr jsonfilen
         [FunctionName("GetDevices")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
@@ -27,22 +27,20 @@ namespace DevicesApiFunctions
              , ILogger log
             )
         {
-            // hämtar från iothubben
+            // hämta från iothubben
             var results = registry.CreateQuery("SELECT * FROM devices");
             //info om devicen
             var twins = await results.GetNextAsTwinAsync();
            
             foreach (var device in cosmos) {
               
-              //hämta upp motsvarande twindevice fr iothubben
+              //loopa cosmosdb hämta upp motsvarande twindevice fr iothubben
                 var twinDevice = twins.Where(x => x.DeviceId == device.DeviceId).FirstOrDefault();
                 device.ConnectionState = (twinDevice.ConnectionState.ToString() == "Connected") ? "Online" : "OffLine";
                 device.Status = twinDevice.Status.ToString();
             }
 
-               
-
-                return new OkObjectResult(cosmos);
+               return new OkObjectResult(cosmos);
         }
 
 

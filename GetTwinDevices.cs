@@ -25,19 +25,19 @@ namespace DevicesApiFunctions
             ILogger log)
         {
             var devices = new List<IOTDevice>();
-            //kombinera info från db och twin till ettt objekt
+            //kombinera info från db och twin till ett objekt
             var result = registry.CreateQuery("SELECT * FROM devices");
             var twins = await result.GetNextAsTwinAsync();
+            
             foreach (var twin in twins)
             {
-                //unika enheter anropas med api adressen http://localhost:7071/api/devices/ + id så körs getdevicebyid o returnerar
+                //unika enheter anropas med api adressen eg devices / + id  vi får ut från db via den
                 var url = Environment.GetEnvironmentVariable("GetDeviceByIdUrl") + twin.DeviceId;
                 var response = await client.GetAsync(url);
                 var data = JsonConvert.DeserializeObject<IOTDevice>(await response.Content.ReadAsStringAsync());
-                //
-                
-                devices.Add(new IOTDevice
-                {
+                // bygg med infon (visa i ui)
+                     devices.Add(new IOTDevice
+                    {
                     DeviceId = twin.DeviceId,
                     DeviceType = data.DeviceType,
                     ConnectionState = (twin.ConnectionState.ToString() == "Connected") ? "Online" : "Offline",

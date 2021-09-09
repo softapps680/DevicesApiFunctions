@@ -12,6 +12,7 @@ using DevicesApiFunctions.Models;
 
 namespace DevicesApiFunctions
 {
+    /*Kommer åt start o stop på device i iotHub via serviceClient*/
     public static class SendDirectMethod
     {
         public static readonly ServiceClient serviceClient =
@@ -24,15 +25,15 @@ namespace DevicesApiFunctions
             ILogger log)
         {
            
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
            
             //kommer ha id, methodname och payload
             dynamic data = JsonConvert.DeserializeObject<DirectMethodModel>(requestBody);
            
             var method = new CloudToDeviceMethod(data.MethodName);
-           if(!string.IsNullOrEmpty(data.PayLoad))
-            method.SetPayloadJson(data.PayLoad);
+           
+            if(!string.IsNullOrEmpty(data.PayLoad))
+                    method.SetPayloadJson(data.PayLoad);
             
             CloudToDeviceMethodResult result=  await serviceClient.InvokeDeviceMethodAsync(data.DeviceId,method);
 
